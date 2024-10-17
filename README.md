@@ -1,60 +1,41 @@
-# Aplikacja pogodowa
+# Weather App
 
-Aplikacja pokazuje pogodę w wybranym mieście.
-Przy pierwszym uruchomieniu, aplikacja sprawdza lokalizację i na jej podstawie pokazuje pogodę dla miasta, w którym się znajdujemy.
-Pogoda na teraz: Obrazek pogody, temperatura, opis pogody, opady, prędkość wiatru, zachmurzenie.
-Pogoda godzinowa: Dla danej godziny podana jest temperatura oraz obrazek pokazujący tę pogodę
-Pogoda na 7 dni: Dla danego dnia podana jest najmniejsza i największa temperatura oraz obrazek pokazujący przeważającą tego dnia pogodę
+The app displays the weather for a selected city. Upon the first launch, the app checks the user's location and shows the weather for the city they are currently in.
 
-Pasek wyszukiwania umożliwia wpisanie miasta. Po kliknięciu ikonki lupy dostaniemy pogodę z tego miasta, które wyszukaliśmy.
-Możliwa jest też zmiana z białego trybu na ciemny i na odwrót.
+- **Current weather**: Weather icon, temperature, weather description, precipitation, wind speed, cloud cover.
+- **Hourly forecast**: For each hour, the temperature and an icon showing the corresponding weather are displayed.
+- **7-day forecast**: For each day, the minimum and maximum temperatures, as well as an icon representing the predominant weather of the day, are shown.
 
-## Opis klas
+A search bar allows users to enter a city name. After clicking the magnifying glass icon, the app will display the weather for the searched city. The app also allows switching between light and dark modes.
 
-Weather - główna klasa pogodowa
-  int weatherCode; // stan pogody np. słońce, pada itp.
-  double temperature;
-  bool? day; // dzień - true | noc - false
+## Class descriptions
 
-CurrentWeather - dziedziczy pola po Weather - trzyma dane dotyczące pogody na teraz
-  int precipitation; // Szansa na opady
-  double windSpeed;
-  int cloudCover;
+**Weather** - Main weather class
+- `int weatherCode`: Weather condition, e.g., sunny, rainy, etc.
+- `double temperature`
+- `bool? day`: Day - true | Night - false
 
-HourlyWeather - dziedziczy pola po Weather - trzyma dane dotyczące pogody na daną godzinę
-  int hour;
+**CurrentWeather** - Inherits fields from Weather, holds data for the current weather
+- `int precipitation`: Chance of precipitation
+- `double windSpeed`
+- `int cloudCover`
 
-DailyWeather - dziedziczy pola po Weather - trzyma dane dotyczące pogody na dany dzień
-  String dayOfWeek;
-  double minTemperature;
-  double maxTemperature;
+**HourlyWeather** - Inherits fields from Weather, holds data for the hourly weather
+- `int hour`
 
-ThemeProvider - dotyczy trybu jasnego i ciemnego
-  ThemeData _themeData - przechowuje aktualny tryb
-  void toggleTheme() - zmienia tryb na przeciwny
+**DailyWeather** - Inherits fields from Weather, holds data for the daily weather
+- `String dayOfWeek`
+- `double minTemperature`
+- `double maxTemperature`
 
-WeatherApi - obsługuje update'owanie danych z pogodowego API, którego używamy
-  String url - adres API
-  String urlRest - trzyma resztę adresu API po kluczu
-  Future<Map<String, dynamic>> fetchData(String city) async  - pobiera dane z API i sprawdza, czy wszystko poszło po drodze dobrze
+**ThemeProvider** - Manages light and dark mode
+- `ThemeData _themeData`: Stores the current theme
+- `void toggleTheme()`: Switches to the opposite theme
 
-  Future<CurrentWeather> getCurrentWeather(String city) async - trawi pobrane dane i tworzy klasę CurrentWeather z tymi danymi
-
-  Future<List<HourlyWeather>> getHourlyWeather(String city) async - trawi pobrane dane i tworzy klasy HourlyWeather na każdą godzinę
-
-  Future<List<DailyWeather>> getDailyWeather(String city) async - trawi pobrane dane i tworzy klasy DailyWeather na każdy dzień
-
-## Bibliografia
-
-https://www.youtube.com/watch?v=-jdtfJe_sII&ab_channel=MitchKoko
-https://www.youtube.com/watch?v=yLtpMqvMgdY&ab_channel=MitchKoko
-https://open-meteo.com/
-https://lottiefiles.com/cd OneDri
-
-## Link do projektu
-
-https://github.com/not-jacob0/weather_app
-
-## Autorzy
-Mateusz Matyskiel
-Jakub Harewicz
+**WeatherApi** - Handles updating data from the weather API we are using
+- `String url`: API address
+- `String urlRest`: Stores the remaining part of the API address after the key
+- `Future<Map<String, dynamic>> fetchData(String city) async`: Fetches data from the API and checks if the request was successful
+- `Future<CurrentWeather> getCurrentWeather(String city) async`: Processes fetched data and creates a `CurrentWeather` instance with this data
+- `Future<List<HourlyWeather>> getHourlyWeather(String city) async`: Processes fetched data and creates `HourlyWeather` instances for each hour
+- `Future<List<DailyWeather>> getDailyWeather(String city) async`: Processes fetched data and creates `DailyWeather` instances for each day
